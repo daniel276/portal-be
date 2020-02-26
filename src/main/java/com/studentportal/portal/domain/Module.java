@@ -34,6 +34,9 @@ public class Module {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "module", cascade = CascadeType.REFRESH, orphanRemoval = true)
     private List<Class> classList = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "enrolledModules")
+    private ArrayList<UserProfile> students = new ArrayList<>();
+
     public Module() {
     }
 
@@ -91,5 +94,13 @@ public class Module {
 
     public void setClassList(List<Class> classList) {
         this.classList = classList;
+    }
+
+    public ArrayList<UserProfile> getStudents() {
+        return students;
+    }
+
+    public void setStudents(ArrayList<UserProfile> students) {
+        this.students = students;
     }
 }

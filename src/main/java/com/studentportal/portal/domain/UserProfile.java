@@ -2,6 +2,7 @@ package com.studentportal.portal.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
@@ -27,6 +28,12 @@ public class UserProfile {
     private Date dateofBirth;
 
     private String address;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "student_module",
+            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "module_id", referencedColumnName = "id"))
+    private ArrayList<Module> enrolledModules = new ArrayList<>();
 
     private Date createdAt;
 
@@ -89,6 +96,14 @@ public class UserProfile {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public ArrayList<Module> getEnrolledModules() {
+        return enrolledModules;
+    }
+
+    public void setEnrolledModules(ArrayList<Module> enrolledModules) {
+        this.enrolledModules = enrolledModules;
     }
 
     public Date getCreatedAt() {
