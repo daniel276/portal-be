@@ -29,11 +29,11 @@ public class UserProfile {
 
     private String address;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "student_module",
-            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "module_id", referencedColumnName = "id"))
-    private ArrayList<Module> enrolledModules = new ArrayList<>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "student_module",
+//            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "module_id", referencedColumnName = "id"))
+//    private ArrayList<Module> enrolledModules = new ArrayList<>();
 
     private Date createdAt;
 
@@ -98,13 +98,13 @@ public class UserProfile {
         this.address = address;
     }
 
-    public ArrayList<Module> getEnrolledModules() {
-        return enrolledModules;
-    }
-
-    public void setEnrolledModules(ArrayList<Module> enrolledModules) {
-        this.enrolledModules = enrolledModules;
-    }
+//    public ArrayList<Module> getEnrolledModules() {
+//        return enrolledModules;
+//    }
+//
+//    public void setEnrolledModules(ArrayList<Module> enrolledModules) {
+//        this.enrolledModules = enrolledModules;
+//    }
 
     public Date getCreatedAt() {
         return createdAt;

@@ -31,11 +31,16 @@ public class Module {
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date endDate;
 
+    @OneToMany(mappedBy = "module")
+    private ArrayList<ModuleEnrollment> moduleEnrollments = new ArrayList<>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "module", cascade = CascadeType.REFRESH, orphanRemoval = true)
     private List<Class> classList = new ArrayList<>();
 
     @ManyToMany(mappedBy = "enrolledModules")
     private ArrayList<UserProfile> students = new ArrayList<>();
+
+//    @ManyToMany(mappedBy = "")
 
     public Module() {
     }
@@ -86,6 +91,14 @@ public class Module {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public ArrayList<ModuleEnrollment> getModuleEnrollments() {
+        return moduleEnrollments;
+    }
+
+    public void setModuleEnrollments(ArrayList<ModuleEnrollment> moduleEnrollments) {
+        this.moduleEnrollments = moduleEnrollments;
     }
 
     public List<Class> getClassList() {
