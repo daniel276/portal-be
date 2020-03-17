@@ -16,8 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.studentportal.portal.security.SecurityConstants.H2_URL;
-import static com.studentportal.portal.security.SecurityConstants.SIGN_UP_URLS;
+import static com.studentportal.portal.security.SecurityConstants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -41,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public JwtAuthenticationFilter authenticationFilter(){ return new JwtAuthenticationFilter(); };
 
     @Override
-    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception { //this authmanager is the one will build the authentication
+    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception { //this auth manager is the one will build the authentication
         authenticationManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder);
     }
 
@@ -54,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()  // this resposible for throwing where if user !authenticated
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()  // this responsible for throwing where if user !authenticated
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)// so that server dont have to store session or cookies
                 .and()
@@ -73,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js"
                 ).permitAll()
                 .antMatchers(H2_URL).permitAll()
+                .antMatchers(TESTING_URL).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);

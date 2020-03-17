@@ -1,6 +1,7 @@
 package com.studentportal.portal.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,6 +17,7 @@ public class Class {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "module_id")
+    @JsonIgnore
     private Module module;
 
     @NotBlank(message = "class name cannot be empty")
@@ -40,6 +42,14 @@ public class Class {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
     }
 
     public String getName() {

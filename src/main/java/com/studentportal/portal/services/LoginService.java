@@ -23,11 +23,22 @@ public class LoginService {
             // don't persist the confirm password
             newUserLogin.setPassword(bCryptPasswordEncoder.encode(newUserLogin.getPassword()));
             newUserLogin.setUsername(newUserLogin.getUsername());
+
             return userLoginRepository.save(newUserLogin);
 
         }catch (Exception e){
             throw new UsernameAlreadyExistsException("Username: "+ newUserLogin.getUsername()+ " already registered");
         }
+    }
+
+    public UserLogin findUserById(Long id){
+        UserLogin userLogin = userLoginRepository.findUserLoginById(id);
+
+        if(userLogin == null){
+            throw new UsernameAlreadyExistsException("not found"); //TODO make new exception for userlogin
+        }
+
+        return userLogin;
     }
 
 }

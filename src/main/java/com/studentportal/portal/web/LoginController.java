@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import static com.studentportal.portal.security.SecurityConstants.TOKEN_PREFIX;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/user")
 @CrossOrigin
 public class LoginController {
 
@@ -68,19 +68,24 @@ public class LoginController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserLogin user, BindingResult result){
         userValidator.validate(user, result);
 
-        user.setConfirmPassword("");
+        user.setConfirmPassword(""); // conceal confirmPassword in json response body
 
         ResponseEntity<?> errorMap = errorService.mapValidationErrorService(result);
         if(errorMap != null){
             return errorMap;
         }
-
         UserLogin newUser = loginService.saveUserLogin(user);
 
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 
     }
 
+    @GetMapping("/{user_id}")
+    public ResponseEntity<?> getUserLogin(@PathVariable Long user_id){
+        UserLogin user = loginService.findUserById(user_id);
 
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
+    }
 
 }

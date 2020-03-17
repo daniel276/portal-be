@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "module")
@@ -25,20 +26,20 @@ public class Module {
 
     private float credit;
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
     @OneToMany(mappedBy = "module")
-    private ArrayList<ModuleEnrollment> moduleEnrollments = new ArrayList<>();
+    private Set<ModuleEnrollment> moduleEnrollments;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "module", cascade = CascadeType.REFRESH, orphanRemoval = true)
     private List<Class> classList = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "enrolledModules")
-    private ArrayList<UserProfile> students = new ArrayList<>();
+//    @ManyToMany(mappedBy = "enrolledModules")
+//    private Set<UserProfile> students;
 
 //    @ManyToMany(mappedBy = "")
 
@@ -93,11 +94,11 @@ public class Module {
         this.endDate = endDate;
     }
 
-    public ArrayList<ModuleEnrollment> getModuleEnrollments() {
+    public Set<ModuleEnrollment> getModuleEnrollments() {
         return moduleEnrollments;
     }
 
-    public void setModuleEnrollments(ArrayList<ModuleEnrollment> moduleEnrollments) {
+    public void setModuleEnrollments(Set<ModuleEnrollment> moduleEnrollments) {
         this.moduleEnrollments = moduleEnrollments;
     }
 
@@ -109,11 +110,11 @@ public class Module {
         this.classList = classList;
     }
 
-    public ArrayList<UserProfile> getStudents() {
-        return students;
-    }
-
-    public void setStudents(ArrayList<UserProfile> students) {
-        this.students = students;
-    }
+//    public Set<UserProfile> getStudents() {
+//        return students;
+//    }
+//
+//    public void setStudents(Set<UserProfile> students) {
+//        this.students = students;
+//    }
 }

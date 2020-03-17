@@ -12,4 +12,8 @@ public interface ModuleEnrollmentRepository extends CrudRepository<ModuleEnrollm
 
     Iterable<ModuleEnrollment> findAllByStudent_Id(Long id);
 
+    Iterable<ModuleEnrollment> findModuleEnrollmentsByModuleCode(String code);
+
+    ModuleEnrollment findModuleEnrollmentById(Long id);
+
 }

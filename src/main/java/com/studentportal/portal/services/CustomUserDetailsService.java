@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Transactional
     public UserLogin loadUserById(Long id){
-        UserLogin userLogin = userLoginRepository.getById(id);
+        UserLogin userLogin = userLoginRepository.findUserLoginById(id);
 
         if(userLogin == null){
             throw new UsernameNotFoundException("User is not found");

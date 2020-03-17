@@ -11,16 +11,12 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Table(name = "user_login")
+@Table(name = "user")
 public class UserLogin implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
-    private UserProfile userProfile; // relation to UserProfile
 
     @NotBlank(message = "Username must not be blank")
     private String username;
@@ -32,7 +28,17 @@ public class UserLogin implements UserDetails {
     private String confirmPassword; // transient
 
     @NotNull
-    private int role; // USER(0)/STAFF(1)/ADMIN(2)
+    private String role; // USER(0)/STAFF(1)/ADMIN(2)
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private Date dob;
+
+    private String address;
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createdAt;
@@ -57,22 +63,22 @@ public class UserLogin implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     public UserLogin() {
@@ -84,14 +90,6 @@ public class UserLogin implements UserDetails {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
     }
 
     public String getUsername() {
@@ -118,12 +116,52 @@ public class UserLogin implements UserDetails {
         this.confirmPassword = confirmPassword;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Date getCreatedAt() {

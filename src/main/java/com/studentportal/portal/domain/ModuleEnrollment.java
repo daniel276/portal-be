@@ -1,8 +1,11 @@
 package com.studentportal.portal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "module_enrollment")
 public class ModuleEnrollment {
 
     @Id
@@ -11,10 +14,12 @@ public class ModuleEnrollment {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
-    private UserProfile student;
+    @JsonIgnore
+    private UserLogin student;
 
     @ManyToOne
     @JoinColumn(name = "module_id")
+    @JsonIgnore
     private Module module;
 
     private int grade;
@@ -30,11 +35,11 @@ public class ModuleEnrollment {
         this.id = id;
     }
 
-    public UserProfile getStudent() {
+    public UserLogin getStudent() {
         return student;
     }
 
-    public void setStudent(UserProfile student) {
+    public void setStudent(UserLogin student) {
         this.student = student;
     }
 
