@@ -66,7 +66,7 @@ public class LoginController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserLogin user, BindingResult result){
-        userValidator.validate(user, result);
+//        userValidator.validate(user, result);
 
         user.setConfirmPassword(""); // conceal confirmPassword in json response body
 
@@ -78,6 +78,17 @@ public class LoginController {
 
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UserLogin userLogin, BindingResult result){
+        ResponseEntity<?> errorMap = errorService.mapValidationErrorService(result);
+        if(errorMap != null){
+            return errorMap;
+        }
+
+        UserLogin newUser = loginService.saveUserLogin(userLogin);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     @GetMapping("/{user_id}")

@@ -18,12 +18,12 @@ public class UserValidator implements Validator {
 
         UserLogin user = (UserLogin) object;
 
-        if(user.getPassword().length() < 6){
-            errors.rejectValue("password", "Length", "Password must consist of minimum six characters");
-        }
+//        if(user.getPassword().length() < 6){
+//            errors.rejectValue("password", "Length", "Password must consist of minimum six characters");
+//        }
 
-        if(!user.getPassword().equals(user.getConfirmPassword())){
-            errors.rejectValue("confirmPassword", "Match", "password must the same");
-        }
+//        if(!user.getPassword().equals(user.getConfirmPassword())){
+//            errors.rejectValue("confirmPassword", "Match", "password must the same");
+//        }
     }
 }

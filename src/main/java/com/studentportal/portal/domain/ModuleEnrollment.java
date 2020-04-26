@@ -1,6 +1,7 @@
 package com.studentportal.portal.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -14,12 +15,12 @@ public class ModuleEnrollment {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
-    @JsonIgnore
+    @JsonIgnoreProperties("password")
     private UserLogin student;
 
     @ManyToOne
     @JoinColumn(name = "module_id")
-    @JsonIgnore
+    @JsonIgnoreProperties("moduleEnrollments")
     private Module module;
 
     private int grade;

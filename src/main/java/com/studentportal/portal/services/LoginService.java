@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 @Service
 public class LoginService {
 
@@ -21,8 +24,25 @@ public class LoginService {
             // unique username
             // password and confirmPassword is match
             // don't persist the confirm password
-            newUserLogin.setPassword(bCryptPasswordEncoder.encode(newUserLogin.getPassword()));
-            newUserLogin.setUsername(newUserLogin.getUsername());
+            if(newUserLogin.getPassword() != null){
+                System.out.println(newUserLogin.getPassword());
+                newUserLogin.setPassword(bCryptPasswordEncoder.encode(newUserLogin.getPassword()));
+            }
+
+            if(newUserLogin.getPassword() == null){
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+                String strDate = dateFormat.format(newUserLogin.getDob());
+                String initialPassword = newUserLogin.getLastName().concat(strDate);
+                newUserLogin.setPassword(bCryptPasswordEncoder.encode(initialPassword));
+            }
+
+            Long id = ((Long) newUserLogin.getId());
+            String strId = id.toString();
+
+            if(newUserLogin.getUsername() == null){
+                newUserLogin.setUsername(newUserLogin.getLastName().concat(strId));
+            }
+            System.out.println("id "+ strId);
 
             return userLoginRepository.save(newUserLogin);
 

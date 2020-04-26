@@ -1,6 +1,7 @@
 package com.studentportal.portal.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,17 +19,17 @@ public class UserLogin implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Username must not be blank")
+//    @NotBlank(message = "Username must not be blank")
     private String username;
 
-    @NotBlank(message = "Password must not be blank")
+//    @NotBlank(message = "Password must not be blank")
     private String password;
 
     @Transient
     private String confirmPassword; // transient
 
     @NotNull
-    private String role; // USER(0)/STAFF(1)/ADMIN(2)
+    private String role = "STUDENT"; // USER(0)/STAFF(1)/ADMIN(2)
 
     private String firstName;
 
@@ -36,9 +37,12 @@ public class UserLogin implements UserDetails {
 
     private String email;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dob;
 
     private String address;
+
+    private String isActive;
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createdAt;
@@ -108,6 +112,7 @@ public class UserLogin implements UserDetails {
         this.password = password;
     }
 
+    @JsonIgnore
     public String getConfirmPassword() {
         return confirmPassword;
     }
@@ -158,6 +163,14 @@ public class UserLogin implements UserDetails {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
     }
 
     public void setAddress(String address) {

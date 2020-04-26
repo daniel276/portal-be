@@ -29,7 +29,15 @@ public class ModuleService {
         }
 
         return module;
+    }
 
+    public Module findModuleById(Long id){
+        Module module = moduleRepository.findModuleById(id);
+        if(module == null){
+            throw new UsernameAlreadyExistsException("OL");
+        }
+
+        return module;
     }
 
     public Module updateModule(Module module){

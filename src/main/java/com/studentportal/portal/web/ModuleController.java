@@ -42,6 +42,12 @@ public class ModuleController {
         return new ResponseEntity<>(module, HttpStatus.OK);
     }
 
+    @GetMapping("/{module_id}")
+    public ResponseEntity<?> getModuleById(@PathVariable Long module_id){
+        Module module = moduleService.findModuleById(module_id);
+        return new ResponseEntity<>(module, HttpStatus.OK);
+    }
+
     @PatchMapping("/update")
     public ResponseEntity<?> deleteModule(Module module){
         Module module1 = moduleService.updateModule(module);
