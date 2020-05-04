@@ -37,10 +37,10 @@ public class StorageService {
     private String endpointUrl = "https://portal-fr-bucket.s3.eu-west-2.amazonaws.com";
 
     private String bucketName = "portal-fr-bucket";
-    @Value("${amazonProperties.accessKey}")
-    private String accessKey = "AKIAJBRGKCOGTTQQHCXA";
 
-    private String secretKey = "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";
+    private String accessKey = "AKIAJBRGKCOGTTQQH***"; // aws policy forbid me from exposing the access key here in github public repo
+
+    private String secretKey = "//0fgg8Xs3thO2JPoJu3HDXz3hF6****smre8Ib";  // aws policy forbid me from exposing the secret key here in github public repo
 
     @PostConstruct
     private void initializeAmazon(){
