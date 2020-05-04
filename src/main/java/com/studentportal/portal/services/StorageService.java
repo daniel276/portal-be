@@ -33,7 +33,6 @@ public class StorageService {
 
     private AmazonS3 amazonS3Client;
 
-    // take the constant values from application.yml
     private String endpointUrl = "https://portal-fr-bucket.s3.eu-west-2.amazonaws.com";
 
     private String bucketName = "portal-fr-bucket";
