@@ -42,7 +42,6 @@ public class AttendanceService {
         Date recordTime = new Date();
         String formattedTimeStr = formatter.format(recordTime);
         Date formattedDate = formatter.parse(formattedTimeStr);
-        System.out.println("AttendanceService.saveAttendanceByDevice " + formattedTimeStr);
         //check if class start and end time is no later than current time
         boolean isValid = checkDateTime(formattedDate, aClass.getStartTime(), aClass.getEndTime());
 

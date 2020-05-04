@@ -13,11 +13,7 @@ public class ModuleService {
     ModuleRepository moduleRepository;
 
     public Module saveOrUpdate(Module module){
-        try{
             return moduleRepository.save(module);
-        }catch (Exception e){
-            throw new UsernameAlreadyExistsException("ahaha"); // TODO MAKE CUSTOM EXCEPTION FOR THIS
-        }
     }
 
     public Module findModuleByCode(String code){
@@ -25,12 +21,8 @@ public class ModuleService {
     }
 
     public Module findModuleById(Long id){
-        Module module = moduleRepository.findModuleById(id);
-        if(module == null){
-            throw new UsernameAlreadyExistsException("OL");
-        }
+        return moduleRepository.findModuleById(id);
 
-        return module;
     }
 
     public void deleteModule(Long id){

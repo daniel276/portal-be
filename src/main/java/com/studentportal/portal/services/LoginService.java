@@ -50,7 +50,6 @@ public class LoginService {
         //format password into this pattern
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(user.getDob());
-        System.out.println("LoginService.resetPassword + " + strDate);
         String initialPassword = user.getLastName().concat(strDate);
         user.setPassword(bCryptPasswordEncoder.encode(initialPassword));
         System.out.println(initialPassword);
