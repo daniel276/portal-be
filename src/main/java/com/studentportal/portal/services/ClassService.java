@@ -8,6 +8,8 @@ import com.studentportal.portal.repositories.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ClassService {
 
@@ -21,17 +23,17 @@ public class ClassService {
         return classRepository.findAll();
     }
 
-    public Class saveClass(Class classModule, String moduleCode){
+    public Class findClass(Long id){
+        return classRepository.findClassById(id);
+    }
 
-        Module module = moduleRepository.findModuleByCode(moduleCode);
+    public Class saveClass(Class classModule, Long module_id){
+
+        Module module = moduleRepository.findModuleById(module_id);
 
         classModule.setModule(module);
+        return classRepository.save(classModule);
 
-        try{
-            return classRepository.save(classModule);
-        }catch (Exception e){
-            throw new UsernameAlreadyExistsException("ok"); //TODO make new exception for this
-        }
     }
 
     public Class updateClass(Class classModule){
@@ -44,8 +46,6 @@ public class ClassService {
         classRepository.delete(classModule);
     }
 
-    public Iterable<Class> findClassesByModuleCode(String code){
-        return classRepository.findAllByModuleCode(code);
-    }
+    public Iterable<Class> findAllByModuleId(Long id) { return classRepository.findAllByModuleId(id);}
 
 }

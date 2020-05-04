@@ -32,17 +32,22 @@ public class ModuleEnrollmentController {
 
     @GetMapping("/student")
     public Iterable<?> findAllByStudentId(@RequestParam Long id){
-        return enrollmentRepository.findAllByStudent_Id(id);
+        return enrollmentService.findAllByStudentId(id);
     }
 
-    @PostMapping("/add/{module_code}/{student_id}")
-    public ResponseEntity<?> saveEnrollment(@Valid @RequestBody ModuleEnrollment moduleEnrollment, BindingResult result, @PathVariable String module_code, @PathVariable Long student_id){
+    @GetMapping("/find/module/{username}")
+    public Iterable<?> findAllByUsername(@PathVariable String username){
+        return enrollmentService.findAllByUsername(username);
+    }
+
+    @PostMapping("/add/{module_id}/{student_id}")
+    public ResponseEntity<?> saveEnrollment(@RequestBody ModuleEnrollment moduleEnrollment, BindingResult result, @PathVariable Long module_id, @PathVariable Long student_id){
 
         ResponseEntity<?> errorMap = errorService.mapValidationErrorService(result);
 
         if(errorMap != null) {return errorMap;}
 
-        ModuleEnrollment moduleEnrollment1 = enrollmentService.saveEnrollment(moduleEnrollment, module_code, student_id);
+        ModuleEnrollment moduleEnrollment1 = enrollmentService.saveEnrollment(moduleEnrollment, module_id, student_id);
 
         return new ResponseEntity<>(moduleEnrollment1, HttpStatus.OK);
     }
@@ -58,20 +63,8 @@ public class ModuleEnrollmentController {
         return new ResponseEntity<>(moduleEnrollment1, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteEnrollment(@PathVariable Long id){
-
-        enrollmentService.deleteEnrollment(id);
-
-        return new ResponseEntity<>("Entry Successfully deleted", HttpStatus.OK);
-    }
-
     @GetMapping("/module")
     public Iterable<?> findEnrolledStudentByModuleCode(@RequestParam String code){
-//        ResponseEntity<?> errorMap = errorService.mapValidationErrorService(result);
-//
-//        if(errorMap != null) {return errorMap;}
-
         return enrollmentService.findAllByModuleCode(code);
     }
 

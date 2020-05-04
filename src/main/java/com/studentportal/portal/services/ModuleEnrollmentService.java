@@ -22,7 +22,7 @@ public class ModuleEnrollmentService {
     @Autowired
     ModuleRepository moduleRepository;
 
-    public Iterable<?> getAll(){
+    public Iterable<ModuleEnrollment> getAll(){
         return enrollmentRepository.findAll();
     }
 
@@ -30,9 +30,13 @@ public class ModuleEnrollmentService {
         return enrollmentRepository.findAllByStudent_Id(id);
     }
 
-    public ModuleEnrollment saveEnrollment(ModuleEnrollment moduleEnrollment, String module_code, Long student_id){
+    public Iterable<ModuleEnrollment> findAllByUsername(String username){
+        return enrollmentRepository.findAllByStudentUsername(username);
+    }
 
-        Module module = moduleRepository.findModuleByCode(module_code);
+    public ModuleEnrollment saveEnrollment(ModuleEnrollment moduleEnrollment, Long module_id, Long student_id){
+
+        Module module = moduleRepository.findModuleById(module_id);
 
         UserLogin user = userLoginRepository.findUserLoginById(student_id);
 

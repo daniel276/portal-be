@@ -27,41 +27,28 @@ public class ClassController {
         return classService.findAll();
     }
 
-    @PostMapping("/{module_code}")
-    public ResponseEntity<?> saveClass(@Valid @RequestBody Class classModule, BindingResult result, @PathVariable String module_code){
+    @GetMapping("/find/{class_id}")
+    public ResponseEntity<?> getClassById(@PathVariable Long class_id){
+        Class class1 = classService.findClass(class_id);
+        return new ResponseEntity<>(class1, HttpStatus.OK);
+    }
+
+    @PostMapping("/{module_id}")
+    public ResponseEntity<?> saveClass(@Valid @RequestBody Class classModule, BindingResult result, @PathVariable Long module_id){
         ResponseEntity<?> errorMap = errorService.mapValidationErrorService(result);
         if(errorMap != null){
             return errorMap;
         }
 
-        Class classModule1 = classService.saveClass(classModule, module_code);
+        Class classModule1 = classService.saveClass(classModule, module_id);
 
-        return new ResponseEntity<>(classModule1, HttpStatus.OK);
+        return new ResponseEntity<>(classModule1, HttpStatus.CREATED);
 
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity<?> updateClass(@Valid @RequestBody Class classModule, BindingResult result){
-        ResponseEntity<?> errorMap = errorService.mapValidationErrorService(result);
-        if(errorMap != null){
-            return errorMap;
-        }
-
-        Class classModule1 = classService.updateClass(classModule);
-
-        return new ResponseEntity<>(classModule1, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteClass(@PathVariable Long id){
-        classService.deleteClass(id);
-
-        return new ResponseEntity<>("Entry Successfully Deleted", HttpStatus.OK);
-    }
-
-    @GetMapping("/{module_code}")
-    public Iterable<?> findClassesByModule(@PathVariable String module_code){
-        return classService.findClassesByModuleCode(module_code);
+    @GetMapping("/{module_id}")
+    public Iterable<?> findClassesByModuleId(@PathVariable Long module_id){
+        return classService.findAllByModuleId(module_id);
     }
 
 

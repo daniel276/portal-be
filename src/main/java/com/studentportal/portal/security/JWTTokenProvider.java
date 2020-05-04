@@ -29,8 +29,10 @@ public class JWTTokenProvider {
         claims.put("username", user.getUsername()); //when we decode the token, we can get the information from the client
         claims.put("firstName", user.getFirstName());
         claims.put("lastName", user.getLastName());
+        claims.put("profile_picture", user.getProfile_picture());
         claims.put("dob", user.getDob());
         claims.put("address", user.getAddress());
+        claims.put("phone", user.getPhone());
         claims.put("email", user.getEmail());
         claims.put("role", user.getRole());
 

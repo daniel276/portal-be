@@ -4,6 +4,8 @@ import com.studentportal.portal.domain.Class;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Repository
 public interface ClassRepository extends CrudRepository<Class, Long> {
 
@@ -12,11 +14,6 @@ public interface ClassRepository extends CrudRepository<Class, Long> {
 
     Iterable<Class> findAllByModuleId(Long id);
 
-    Iterable<Class> findAllByModuleCode(String code);
-
     Class findClassById(Long id);
-
-//    Iterable<Class> findClassesBy
-
 
 }

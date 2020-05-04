@@ -30,7 +30,7 @@ public class ModuleController {
             return errorMap;
         }
 
-        Module module1 = moduleService.save(module);
+        Module module1 = moduleService.saveOrUpdate(module);
 
         return new ResponseEntity<>(module1, HttpStatus.CREATED);
     }
@@ -49,17 +49,10 @@ public class ModuleController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<?> deleteModule(Module module){
-        Module module1 = moduleService.updateModule(module);
+    public ResponseEntity<?> updateModule(Module module){
+        Module module1 = moduleService.saveOrUpdate(module);
 
         return new ResponseEntity<>(module1, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteModule(@PathVariable Long id){
-        moduleService.deleteModule(id);
-
-        return new ResponseEntity<>("Entry Successfully Deleted", HttpStatus.OK);
     }
 
     @GetMapping("/all")

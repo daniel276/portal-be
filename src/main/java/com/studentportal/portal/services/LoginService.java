@@ -23,26 +23,16 @@ public class LoginService {
         try{
             // unique username
             // password and confirmPassword is match
-            // don't persist the confirm password
-            if(newUserLogin.getPassword() != null){
-                System.out.println(newUserLogin.getPassword());
+            if(newUserLogin.getPassword() != null){ // if password is provided then just continue and
                 newUserLogin.setPassword(bCryptPasswordEncoder.encode(newUserLogin.getPassword()));
             }
 
-            if(newUserLogin.getPassword() == null){
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            if(newUserLogin.getPassword() == null){ // if account newly created, generate initial password
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String strDate = dateFormat.format(newUserLogin.getDob());
-                String initialPassword = newUserLogin.getLastName().concat(strDate);
+                String initialPassword = newUserLogin.getLastName().toLowerCase().concat(strDate);
                 newUserLogin.setPassword(bCryptPasswordEncoder.encode(initialPassword));
             }
-
-            Long id = ((Long) newUserLogin.getId());
-            String strId = id.toString();
-
-            if(newUserLogin.getUsername() == null){
-                newUserLogin.setUsername(newUserLogin.getLastName().concat(strId));
-            }
-            System.out.println("id "+ strId);
 
             return userLoginRepository.save(newUserLogin);
 
@@ -52,13 +42,23 @@ public class LoginService {
     }
 
     public UserLogin findUserById(Long id){
-        UserLogin userLogin = userLoginRepository.findUserLoginById(id);
+        return userLoginRepository.findUserLoginById(id);
+    }
 
-        if(userLogin == null){
-            throw new UsernameAlreadyExistsException("not found"); //TODO make new exception for userlogin
-        }
+    public UserLogin resetPassword(Long user_id){
+        UserLogin user = userLoginRepository.findUserLoginById(user_id);
+        //format password into this pattern
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(user.getDob());
+        System.out.println("LoginService.resetPassword + " + strDate);
+        String initialPassword = user.getLastName().concat(strDate);
+        user.setPassword(bCryptPasswordEncoder.encode(initialPassword));
+        System.out.println(initialPassword);
+        return userLoginRepository.save(user);
+    }
 
-        return userLogin;
+    public Iterable<UserLogin> findAll(){
+        return userLoginRepository.findAll();
     }
 
 }

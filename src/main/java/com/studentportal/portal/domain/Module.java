@@ -38,11 +38,6 @@ public class Module {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "module", cascade = CascadeType.REFRESH, orphanRemoval = true)
     private List<Class> classList = new ArrayList<>();
 
-//    @ManyToMany(mappedBy = "enrolledModules")
-//    private Set<UserProfile> students;
-
-//    @ManyToMany(mappedBy = "")
-
     public Module() {
     }
 

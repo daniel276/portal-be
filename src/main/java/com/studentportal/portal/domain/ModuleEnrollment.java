@@ -13,12 +13,12 @@ public class ModuleEnrollment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id")
-    @JsonIgnoreProperties("password")
+    @JsonIgnore
     private UserLogin student;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "module_id")
     @JsonIgnoreProperties("moduleEnrollments")
     private Module module;

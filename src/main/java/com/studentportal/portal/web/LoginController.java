@@ -7,7 +7,6 @@ import com.studentportal.portal.payload.LoginRequest;
 import com.studentportal.portal.security.JWTTokenProvider;
 import com.studentportal.portal.services.LoginService;
 import com.studentportal.portal.services.MapValidationErrorService;
-import com.studentportal.portal.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +36,6 @@ public class LoginController {
     JWTTokenProvider tokenProvider;
 
     @Autowired
-    UserValidator userValidator;
-
-    @Autowired
     AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
@@ -49,7 +45,7 @@ public class LoginController {
         if(errorMap != null){
             return errorMap;
         }
-
+        //pass the request body to authManager class
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
@@ -66,14 +62,13 @@ public class LoginController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserLogin user, BindingResult result){
-//        userValidator.validate(user, result);
-
-        user.setConfirmPassword(""); // conceal confirmPassword in json response body
 
         ResponseEntity<?> errorMap = errorService.mapValidationErrorService(result);
+
         if(errorMap != null){
             return errorMap;
         }
+        user.setRole(user.getRole().toUpperCase());
         UserLogin newUser = loginService.saveUserLogin(user);
 
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
@@ -81,7 +76,7 @@ public class LoginController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<?> updateUser(@Valid @RequestBody UserLogin userLogin, BindingResult result){
+    public ResponseEntity<?> updateUser(@RequestBody UserLogin userLogin, BindingResult result){
         ResponseEntity<?> errorMap = errorService.mapValidationErrorService(result);
         if(errorMap != null){
             return errorMap;
@@ -92,11 +87,21 @@ public class LoginController {
     }
 
     @GetMapping("/{user_id}")
-    public ResponseEntity<?> getUserLogin(@PathVariable Long user_id){
+    public ResponseEntity<?> getUser(@PathVariable Long user_id){
         UserLogin user = loginService.findUserById(user_id);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
+    @PatchMapping("/reset-password/{user_id}")
+    public ResponseEntity<?> resetPassword(@PathVariable Long user_id){
+        loginService.resetPassword(user_id);
+        return new ResponseEntity<>("Password reset success", HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public Iterable<UserLogin> getAll(){
+        return loginService.findAll();
     }
 
 }

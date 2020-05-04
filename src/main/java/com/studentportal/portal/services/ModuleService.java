@@ -12,23 +12,16 @@ public class ModuleService {
     @Autowired
     ModuleRepository moduleRepository;
 
-    public Module save(Module module){
+    public Module saveOrUpdate(Module module){
         try{
             return moduleRepository.save(module);
         }catch (Exception e){
-            throw new UsernameAlreadyExistsException("ahaha");
+            throw new UsernameAlreadyExistsException("ahaha"); // TODO MAKE CUSTOM EXCEPTION FOR THIS
         }
     }
 
     public Module findModuleByCode(String code){
-
-        Module module = moduleRepository.findModuleByCode(code);
-
-        if(module == null){
-            throw new UsernameAlreadyExistsException("ok"); // TODO make new exception for this
-        }
-
-        return module;
+        return moduleRepository.findModuleByCode(code);
     }
 
     public Module findModuleById(Long id){
@@ -38,10 +31,6 @@ public class ModuleService {
         }
 
         return module;
-    }
-
-    public Module updateModule(Module module){
-        return moduleRepository.save(module);
     }
 
     public void deleteModule(Long id){
