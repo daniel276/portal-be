@@ -1,0 +1,7 @@
+# AMAZON AWS S3 Properties, in order to access the bucket in the cloud
+
+amazonProperties:
+  endpointUrl: https://portal-fr-bucket.s3.eu-west-2.amazonaws.com
+  accessKey: AKIAJBRGKCOGTTQQHCXA
+  secretKey: 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
+  bucketName: portal-fr-bucket

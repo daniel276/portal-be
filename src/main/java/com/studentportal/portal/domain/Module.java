@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "module")
@@ -25,11 +26,14 @@ public class Module {
 
     private float credit;
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+
+    @OneToMany(mappedBy = "module")
+    private Set<ModuleEnrollment> moduleEnrollments;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "module", cascade = CascadeType.REFRESH, orphanRemoval = true)
     private List<Class> classList = new ArrayList<>();
@@ -85,6 +89,14 @@ public class Module {
         this.endDate = endDate;
     }
 
+    public Set<ModuleEnrollment> getModuleEnrollments() {
+        return moduleEnrollments;
+    }
+
+    public void setModuleEnrollments(Set<ModuleEnrollment> moduleEnrollments) {
+        this.moduleEnrollments = moduleEnrollments;
+    }
+
     public List<Class> getClassList() {
         return classList;
     }
@@ -92,4 +104,12 @@ public class Module {
     public void setClassList(List<Class> classList) {
         this.classList = classList;
     }
+
+//    public Set<UserProfile> getStudents() {
+//        return students;
+//    }
+//
+//    public void setStudents(Set<UserProfile> students) {
+//        this.students = students;
+//    }
 }

@@ -1,38 +1,55 @@
 package com.studentportal.portal.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "user_login")
+@Table(name = "user")
 public class UserLogin implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
-    private UserProfile userProfile; // relation to UserProfile
-
-    @NotBlank(message = "Username must not be blank")
+    @Column(unique = true)
     private String username;
 
-    @NotBlank(message = "Password must not be blank")
     private String password;
 
-    @Transient
-    private String confirmPassword; // transient
-
     @NotNull
-    private int role; // USER(0)/STAFF(1)/ADMIN(2)
+    private String role = "STUDENT"; //default value
+
+    private String profile_picture;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "userLogin", orphanRemoval = true)
+    private List<FaceBiometric> faceBiometrics = new ArrayList<>();
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dob;
+
+    private String phone;
+
+    private String address;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, mappedBy = "user", orphanRemoval = true)
+    @JsonIgnore
+    private List<Attendance> attendanceList = new ArrayList<>();
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createdAt;
@@ -57,22 +74,22 @@ public class UserLogin implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     public UserLogin() {
@@ -84,14 +101,6 @@ public class UserLogin implements UserDetails {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
     }
 
     public String getUsername() {
@@ -110,20 +119,84 @@ public class UserLogin implements UserDetails {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getProfile_picture() {
+        return profile_picture;
+    }
+
+    public void setProfile_picture(String profile_picture) {
+        this.profile_picture = profile_picture;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<FaceBiometric> getFaceBiometrics() {
+        return faceBiometrics;
+    }
+
+    public void setFaceBiometrics(List<FaceBiometric> faceBiometrics) {
+        this.faceBiometrics = faceBiometrics;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<Attendance> getAttendanceList() {
+        return attendanceList;
+    }
+
+    public void setAttendanceList(List<Attendance> attendanceList) {
+        this.attendanceList = attendanceList;
     }
 
     public Date getCreatedAt() {
@@ -141,4 +214,6 @@ public class UserLogin implements UserDetails {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+
 }

@@ -27,7 +27,13 @@ public class JWTTokenProvider {
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", (Long.toString(user.getId()))); //these are the information that we want to include in our token
         claims.put("username", user.getUsername()); //when we decode the token, we can get the information from the client
-//        claims.put("fullName", user.getFullName());
+        claims.put("firstName", user.getFirstName());
+        claims.put("lastName", user.getLastName());
+        claims.put("profile_picture", user.getProfile_picture());
+        claims.put("dob", user.getDob());
+        claims.put("address", user.getAddress());
+        claims.put("phone", user.getPhone());
+        claims.put("email", user.getEmail());
         claims.put("role", user.getRole());
 
         return Jwts.builder()//this is how we build the token
